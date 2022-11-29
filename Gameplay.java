@@ -44,12 +44,12 @@ public class Gameplay{
             blockObjekt4.startPositionMovingBlock();
 
             //zeichne Spielfeld mit allen 4 Bloecken
-            playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+            this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
 
-            while (/*SPACEBAR IS PRESSED VARIBALE ==FALSE*/){
+            while (false/*SPACEBAR IS PRESSED VARIBALE ==FALSE*/){
                 //Block Objekt 4 wird horizontal bewegt, bis der Userinput kommt
                 blockObjekt4.movingXAxis();
-                playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                 
                 //Delay, screibt Spielgeschwindigkeit fest
                 TimeUnit.SECONDS.sleep(this.delayTime);
@@ -60,50 +60,53 @@ public class Gameplay{
             }
 
             //Abfrage ob Block 4 den Tower trifft
+            //getter und setter für Block-Attribute anlegen
+
             if (blockObjekt4.calculatIfOnTower(this.blockObject3.blockPosition, this.blockObject3.blockWidth) == true){
                 //Spiel geht weiter
 
                 while(blockObjekt4.fall() == false){
                     //Fall-Animation vom Block-Objekt4 bis es den Tower erreicht hat
                     blockObjekt4.fall();
-                    playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                    this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                     //Delay, screibt Spielgeschwindigkeit fest
                     TimeUnit.SECONDS.sleep(this.delayTime);
 
                 }
                 
                 
-                playerScore = playerScore + 1;
-                playGround1.updatePlayerScore(playerScore);
-                playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                this.playerScore = this.playerScore + 1;
+                this.playGround1.updatePlayerScore(this.playerScore);
+                this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                 //Delay, screibt Spielgeschwindigkeit fest
                 TimeUnit.SECONDS.sleep(this.delayTime);
 
                 blockObjekt4.split();
-                playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                 //Delay, screibt Spielgeschwindigkeit fest
                 TimeUnit.SECONDS.sleep(this.delayTime);
 
-                while(blockObject1.blockHeight != 0){
+                while(this.blockObject1.blockHeight != 0){
                     //Scrollt alle Bloecke mit jeder Schleife um einen bestimmten wert nach unten, bis die Hoehe von Block1 = 0 ist
 
-                    blockObject1.scroll();
-                    blockObject2.scroll();
-                    blockObject3.scroll();
+                    this.blockObject1.scroll();
+                    this.blockObject2.scroll();
+                    this.blockObject3.scroll();
                     blockObjekt4.scroll();
-                    playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                    this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                     //Delay, screibt Spielgeschwindigkeit fest
                     TimeUnit.SECONDS.sleep(this.delayTime); 
 
                 }
 
                 //umkopieren der einzelnen Bloecke um den Speicher klein zu halten:
-                blockObject1 = blockObject2; 
-                blockObject2 = blockObject3;
-                blockObject3 = blockObject4;
+                this.blockObject1 = this.blockObject2; 
+                this.blockObject2 = this.blockObject3;
+                this.blockObject3 = blockObjekt4;
 
                 blockObjekt4 = null; 
-                playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, this.blockObjekt4 , this.moveBackgroundInGUI);
+                //in diesem Fall werden nur 3 Block-Objekte übergeben, blockObject4 = NULL!!
+                this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                 //Delay, screibt Spielgeschwindigkeit fest
                 TimeUnit.SECONDS.sleep(this.delayTime);
                 
@@ -112,8 +115,8 @@ public class Gameplay{
 
             else{
                 //Game Over
-                gameOver = true;
-                playGround1.drawGameOver(gameOver);
+                this.gameOver = true;
+                this.playGround1.drawGameOver(this.gameOver);
 
             }
 
