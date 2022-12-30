@@ -1,3 +1,16 @@
+/*
+ * Author:  Alexandra Mielke
+ * Date:    November 2022
+ * 
+ * Content: Graphic User Interface class for the Game "Stack Tower". Programmed 
+ * as part of the course embedded systems, master electrical engineering.
+ * 
+ * Last modified:  30.12.2022
+ * 
+ */
+
+
+ //*************************************************************************** IMPORTS
 import java.awt.*;
 import javax.swing.*;
 
@@ -12,12 +25,11 @@ class PlayGround extends JPanel
      *  playerScore
      */
 
+    //*************************************************************************** CLASS VARIABLES
     public static int playerScore;
 
     private static JFrame mainFrame;
     private int[] layers = {-3000,0,300};
-    private Color[] layerColors = {Color.black,Color.gray, Color.white};
-
     private JLayeredPane layeredPane;
     private JLabel block1, block2, block3, block4;
 
@@ -53,21 +65,13 @@ class PlayGround extends JPanel
         block4.yposition = 600;
         
         field.drawBackground(0);
+        field.drawScoreBoard();
         field.drawFrame(block1, block2, block3, block4);
 
 
         block3.color = 9;
         block3.xposition = 250;
-        field.drawFrame(block1, block2, block3, block4);
-
-        
-        /*Rectangles rects = new Rectangles();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(rects);
-        frame.setSize(360, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);*/
-          
+        field.drawFrame(block1, block2, block3, block4);          
     }
 
     private PlayGround(JLayeredPane layeredPane)
@@ -77,10 +81,20 @@ class PlayGround extends JPanel
         this.layeredPane = layeredPane;        
     }
 
+    //*************************************************************************** PUBLIC
+
     public static PlayGround initPlayGround(int playingFieldHeight, int playingFieldWidth)
     {
-        /* Braucht playingFieldWidth & playingFieldHeight mit Default 1000
-         * Returns object of the class
+        /*
+         * Creates PlayGround Object. Should only be called once.
+         * 
+         * Args:
+         *      playingFieldHeight (int): Height of the generated field. Should be 1000.
+         *      playingFieldWidth (int):  Width of the generated field. Should be 1000.
+         * 
+         * Returns:
+         *      None
+         * 
          */
         
         PlayGround.playerScore = 0;    
@@ -109,20 +123,28 @@ class PlayGround extends JPanel
     public void drawFrame(Block block1, Block block2, Block block3, Block block4)
     {
         /*
-         * Braucht 4 Blockobjekte (von denen aktuell noch nicht klar ist, wie sie aussehen)
+         * Draws current Frame.
+         * 
+         * Args:
+         *      blockX (Block): Block Object that contains its height, width, position and color. Please refer to Block.java for more detail.
+         * 
+         * Returns:
+         *      None
+         * 
+         */
+
+        /*
+         * Braucht 4 Blockobjekte
          * move background --> dabei müssten dann alle Blöcke und der Background bewegt werden, wobei Caro die Blockbewegung vorgibt und ich die Hintergrund Bewegung
          * 
          * 
          * Jedes Mal werden alle 4 Blöcke gezeichnet
          * - Entfernen der alten Blöcke
          * - Hinzufügen der neuen Blöcke
-         */
-
-         /* Erzeugung eines neuen Frames mit dem 
-            Titel "Beispiel JFrame " */     
+         */    
             
-        //clear all old labels
-        Container parent = this.block1.getParent();
+        //clear all old labels --> Dann sind iwie alle Blöcke weg
+        /*Container parent = this.block1.getParent();
         parent.remove(this.block1);
         parent = this.block2.getParent();
         parent.remove(this.block2);
@@ -131,9 +153,8 @@ class PlayGround extends JPanel
         parent = this.block4.getParent();
         parent.remove(this.block4);
         parent.validate();
-        parent.repaint();
+        parent.repaint();*/
         
-        //Rectangles is already a JPanel, so no additional JPanel needed?
         this.block1 = this.createRect(block1);
         layeredPane.add(this.block1, Integer.valueOf(layers[1]));
 
@@ -145,33 +166,64 @@ class PlayGround extends JPanel
 
         this.block4 = this.createRect(block4);
         layeredPane.add(this.block4, Integer.valueOf(layers[1]));
-        
-
-        /*JDesktopPane panel = new JDesktopPane();
-        Color strange_color = new Color(150, 50, 50, 150);
-        panel.setBackground(strange_color);
-        
-        this.mainFrame.add(panel);
-        this.mainFrame.setVisible(true);*/
     }
 
     public void updatePlayerScore(int Score)
     {
-
+        /*
+         * Updates text in Player Score 
+         * 
+         * Args:
+         *      score (int): The player's current score.
+         * 
+         * Returns:
+         *      None
+         * 
+         */
     }
 
     public void drawGameOver()
     {
-
+        /*
+         * 
+         * 
+         * Args:
+         *      None
+         * 
+         * Returns:
+         *      None
+         * 
+         */
     }
 
     public void moveBackground()
     {
-
+        /*
+         * Description
+         * 
+         * Args:
+         *      None
+         * 
+         * Returns:
+         *      None
+         * 
+         */
     }
+
+    //*************************************************************************** PRIVATE UTIL FUNCTIONS
 
     private void drawBackground(int counter)
     {
+        /*
+         * Description
+         * 
+         * Args:
+         *      None
+         * 
+         * Returns:
+         *      None
+         * 
+         */
         ImageIcon backgroundImg = new ImageIcon("image/Background/Background" + Integer.toString(counter) + ".png");
         JLabel background = new JLabel(backgroundImg);
 
@@ -186,6 +238,16 @@ class PlayGround extends JPanel
 
     private static Color getColor(int colornumber)
     {
+        /*
+         * Description
+         * 
+         * Args:
+         *      None
+         * 
+         * Returns:
+         *      None
+         * 
+         */
         switch (colornumber)
         {
             case 1:
@@ -215,6 +277,16 @@ class PlayGround extends JPanel
 
     private JLabel createRect(Block block)
     {
+        /*
+         * Description
+         * 
+         * Args:
+         *      None
+         * 
+         * Returns:
+         *      None
+         * 
+         */
         JLabel label = new JLabel();
         label.setVerticalAlignment(JLabel.TOP);
         label.setHorizontalAlignment(JLabel.CENTER);
@@ -224,6 +296,19 @@ class PlayGround extends JPanel
         label.setBorder(BorderFactory.createLineBorder(Color.black));
         label.setBounds(block.xposition,block.yposition,block.width, block.height);     
         return label;
+    }
+
+    private void drawScoreBoard()
+    {
+        JLabel scoreBoard = new JLabel("Score: " + Integer.toString(PlayGround.playerScore));
+        scoreBoard.setVerticalAlignment(JLabel.CENTER);
+        scoreBoard.setHorizontalAlignment(JLabel.CENTER);
+        scoreBoard.setOpaque(true);
+        scoreBoard.setBackground(new Color(0,0,0, 150));
+        scoreBoard.setForeground(Color.white);
+        scoreBoard.setBorder(BorderFactory.createLineBorder(Color.black));
+        scoreBoard.setBounds(800,900,150, 50);    
+        layeredPane.add(scoreBoard, Integer.valueOf(layers[1])); 
     }
 }
 
