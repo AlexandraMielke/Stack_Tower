@@ -12,6 +12,13 @@ public class Block{
     int StartstandingBlockPosition = 550;        // x-Position für den stehendem Block
     boolean blockOnTower;                   // gibt an ob der block auf dem Tower landet oder nicht
 
+
+    //@AlexandraMielke: Hinzugefügt zum besseren Handling - Diskussion noch ausstehend
+    int width;
+    int height;
+    int xposition;
+    int yposition;
+
     public static void main(String[] args) {
 
     }

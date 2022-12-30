@@ -19,7 +19,7 @@ public class Gameplay{
     //constructor
     public Gameplay(){
         //Anlegen des Spielfeldes mit Input "Groesse"?
-        PlayGround playGround1 = new PlayGround(1000, 1000);
+        PlayGround playGround1 = PlayGround.initPlayGround(1000, 1000);
 
         //Anlegen der Start-Bloecke mit konstanter Position
         Block blockObject1 = new Block();
