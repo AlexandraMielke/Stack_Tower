@@ -4,20 +4,15 @@ public class Block{
     int color;                              // Feslegen der Zahl für die Farbauswahl der Blöcke z.B. 1=blau, 2=grün ...  
     int StartHightBlock = 100;                   // Höhe vom Block entspricht 100 Pixel
     int StartWidthBlock = 100;                   // Anfangsbreite vom Block entspricht 100 Pixel
-    int widthPlayground = 1000;             // Breite des Spielfeldes
-    int movingPixel = 5;                    // ANzahl an Pixel die der Block springt bei der Bewegung
-    int [] anfangsposition = new int[1];    // Anfangspoition [X-Achse, Y-Achse]
-                                            // Anfangsposition links vom spielfelt; Position durch rechte Ecke unten vom Block festgelget; Spielfeldgröße 1000 x 1000
+    int widthPlayground = 1000;             // Breite und Höhe des Spielfeldes
+    int highPlayground = 1000;
+    int movingPixel = 5;                    // Anzahl an Pixel die der Block springt bei der Bewegung
+    int startPositionX;                   // Anfangsposition links vom spielfelt; Position durch rechte Ecke unten vom Block festgelget; Spielfeldgröße 1000 x 1000
+    int startPositionY;                    
+                                           
     int movingDirection;                    // Bewegungsrichtung rechts links speichern 1 = rechts, 2 = links;
     int StartstandingBlockPosition = 550;        // x-Position für den stehendem Block
     boolean blockOnTower;                   // gibt an ob der block auf dem Tower landet oder nicht
-
-
-    //@AlexandraMielke: Hinzugefügt zum besseren Handling - Diskussion noch ausstehend
-    int width;
-    int height;
-    int xposition;
-    int yposition;
 
     public static void main(String[] args) {
 
@@ -38,31 +33,26 @@ public class Block{
 
     //Anfangsposition vom stehenden Block unten, mitte und oben und dem bewegten Block
     public int[] startPositionStandingBlockDown(){
-        anfangsposition[0] = StartstandingBlockPosition;
-        anfangsposition[1] = 0;
-
-        return anfangsposition;
+        this.startPositionX = StartstandingBlockPosition;
+        this.startPositionY = 0;
     }
 
     public int[] startPositionStandingBlockMiddel(){
-        anfangsposition[0] = StartstandingBlockPosition;
-        anfangsposition[1] = StartHightBlock;
-
-        return anfangsposition;
+        this.startPositionX = StartstandingBlockPosition;
+        this.startPositionY = StartHightBlock;
     }
 
     public int[] startPositionStandingBlockTop(){
-        anfangsposition[0] = StartstandingBlockPosition;
-        anfangsposition[1] = StartHightBlock * 2;
-
-        return anfangsposition;
+        this.startPositionX = StartstandingBlockPosition;
+        this.startPositionY = StartHightBlock * 2;
     }
 
     public int[] startpositionMovingBlock(){
-        anfangsposition[0] = StartWidthBlock;
-        anfangsposition[1] = widthPlayground - StartWidthBlock;
-
-        return anfangsposition;
+        this.startPositionX = StartWidthBlock;
+        this.startPositionY = highPlayground - StartHightBlock;    
+        
+        // Rechte ecke unten von Block gibt die x- und y-Position y-Postion in einem Spielfeld Feld
+        // y-Position = Höhe von Spielfeld - höhe vom Block
     }
 
     //Bewegung und Berechnung (die Aktuelle X-Position muss mit übergeben werden)
@@ -87,8 +77,10 @@ public class Block{
     }
 
     // Gibt aus ob der Block auf dem Tower landet (true) oder nicht (false); Aktuelle X-Position vom bewegten und stehenden Block muss übergeben werden
-    public boolean calculatIfOnTower(int Xposition, int standingBlockPosition, int widthBlock){
-        if(Xposition>(standingBlockPosition-widthBlock) && Xposition<(standingBlockPosition+widthBlock)){
+    // Gameplay soll folgende Werte übergeben: 
+    //calculateIfOnTower(xPosition vom Fallenden BLock, Xpostion vom obersten stehenden Block, Breite fallender Block)
+    public boolean calculatIfOnTower(int Xposition, int standingBlockPositionX, int widthBlock){
+        if(Xposition>(standingBlockPositionX - widthBlock) && Xposition<(standingBlockPositionX + widthBlock)){
             blockOnTower = true;
         }else{
             blockOnTower = false;
@@ -97,44 +89,45 @@ public class Block{
         return blockOnTower;
     }
 
-    //Block bewegt sich nach unten
+    //MovingBlock auf Tower fallen lassen
     public int fall(int YPosition){
-        if(YPosition>=StartHightBlock*3){
-            YPosition = YPosition - movingPixel;
+        if(YPosition > StartHightBlock*3){
+            this.YPosition = YPosition - movingPixel;
+        }else{
+            return true;
         }
-        return YPosition;
+        
     }
 
     //Der Block wird verkleinert (Wichtig Position des gefallen Block auf dem stehenden Block oder nicht)
+    //split(Xpostion vom bewegten Block, Postion vom obersten stehenden Block, Breite vom fallenden Block)
     public int split(int Xposition, int standingBlockPosition, int WidthBlock){
         if(Xposition>standingBlockPosition){
-         WidthBlock = WidthBlock - (Xposition - standingBlockPosition);
+            this.WidthBlock = WidthBlock - (Xposition - standingBlockPosition);
         }
         if(Xposition<standingBlockPosition){
-            WidthBlock = Xposition - (standingBlockPosition - WidthBlock);
+            this.WidthBlock = Xposition - (standingBlockPosition - WidthBlock);
         }
 
-         return WidthBlock;
+        //neue Position für den stehenden Block; X-Postion vom Bewegten Block und stehnden muss übergeben werden
+        // wenn X-Position nicht über dem Block sondern außerhalb (wird abgetrennt), neue Position vom Block bestimmen
+        if(Xposition>standingBlockPosition){
+            this.Xposition = standingBlockPosition;
+        }else{
+            this.Xposition = Xposition;
+        }
      }
 
 
-    //neue Position für den stehenden Block; X-Postion vom Bewegten Block und stehnden muss übergeben werden
-    public int newPositionStandingBlockTop(int Xposition, int oldStandingBlockPosition){
-        // wenn X-Position nicht über dem Block sondern außerhalb (wird abgetrennt), neue Position vom Block bestimmen
-        if(Xposition>oldStandingBlockPosition){
-            Xposition = oldStandingBlockPosition;
-        }
-        return Xposition;
-    }
-
     // Drei Blöcke müssen scrollen -> In einem Array die jeweiligen YPositionen der drei Blöcke verändern
-    public int[] scroll(int [] YPosition){
-        if(YPosition[1] != 0){
-            YPosition[0]= YPosition[0] - movingPixel;
-            YPosition[1]= YPosition[1] - movingPixel;
-            YPosition[2]= YPosition[2] - movingPixel;
+    public int scroll(int YPositionDown, int YPositionMiddel, int YPositionTop){
+        if(YPositionMiddel != 0){
+            this.YPositionDown = YPositionDown - movingPixel;
+            this.YPositionMiddel = YPositionMiddel - movingPixel;
+            this.YPositionTop = YPositionTop - movingPixel;
+        }else{
+            return true;
         }
-        return YPosition;
     }
 
 }
