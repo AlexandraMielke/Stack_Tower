@@ -70,10 +70,13 @@ class PlayGround extends JPanel
         field.drawFrame(block1, block2, block3, block4);
 
         int i = 101;
+        int w = 100;
         int flag_forwards = 1;
+        int flag_bigger = 1;
         while(true)
         {
             block1.xposition = i;
+            block1.width = w;
             field.drawFrame(block1, block2, block3, block4); 
             if(i == 800) flag_forwards = 0;
             if(i == 100) 
@@ -90,6 +93,10 @@ class PlayGround extends JPanel
                 i=i-1;
                 
             }
+            if (w == 150) flag_bigger = 0;
+            if (w == 100) flag_bigger = 1;
+            if(flag_bigger ==1) w = w+1;
+            else w = w-1;
             field.moveBackground();
             PlayGround.pause(3);
         }
@@ -228,7 +235,7 @@ class PlayGround extends JPanel
     {
         //Shape of origin picture: 1000x7000 pixel
         int min = this.scrollpanel.getVerticalScrollBar().getMinimum();
-        this.backgroundPos = this.backgroundPos -1;
+        this.backgroundPos = this.backgroundPos - 1;
         if(this.backgroundPos > min)
         {
             this.scrollpanel.getVerticalScrollBar().setValue(this.backgroundPos);
@@ -297,9 +304,13 @@ class PlayGround extends JPanel
      */
     private void updateBlock(JLabel blockpanel, Block block)
     {
-        blockpanel.setBackground(PlayGround.getColor(block.color));
-        blockpanel.setLocation(block.xposition, block.yposition);
-        blockpanel.setSize(block.width, block.height);
+        //check current block settings to change only if necessary
+        if(blockpanel.getBackground() != PlayGround.getColor(block.color))         
+            blockpanel.setBackground(PlayGround.getColor(block.color));
+        if(blockpanel.getLocation() != new Point (block.xposition, block.yposition))
+            blockpanel.setLocation(block.xposition, block.yposition);
+        if(blockpanel.getSize() != new Dimension(block.width, block.height))
+            blockpanel.setSize(block.width, block.height);
     }
 
     /**
