@@ -14,6 +14,19 @@ public class Gameplay{
     private float delayTime = 0.2;                  //legt Spielgeschwindigkeit fest
     private int playerScore = 0;
 
+    public static int playingFieldHeight = 1000;
+    public static int playingFieldWidth = 1000;
+    public static int StartHeightBlock = 100;                   // Höhe vom Block entspricht 100 Pixel
+    public static int StartWidthBlock = 100;                   // Anfangsbreite vom Block entspricht 100 Pixel
+    public static int scrollParameter = 1;          // Anzahl an Pixel die der Block springt bei der Bewegung
+    public static int fallParameter = 1;            // Anzahl an Pixel die der Block fällt bei der Bewegung
+    public static int panParameter = 1;             //Parameter für Bewegung rechts/links
+
+    private Block blockObject1;
+    private Block blockObject2;
+    private Block blockObject3;
+    private PlayGround playGround1;
+
 
     //Methoden
     //constructor
@@ -22,7 +35,7 @@ public class Gameplay{
         PlayGround playGround1 = PlayGround.initPlayGround(1000, 1000);
 
         //Anlegen der Start-Bloecke mit konstanter Position
-        Block blockObject1 = new Block();
+        this.blockObject1 = new Block();
         Block blockObject2 = new Block();
         Block blockObject3 = new Block();
 
@@ -52,7 +65,7 @@ public class Gameplay{
                 this.playGround1.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
                 
                 //Delay, screibt Spielgeschwindigkeit fest
-                TimeUnit.SECONDS.sleep(this.delayTime);
+                TimeUnit.SECONDS.sleep(this.delayTime); //da ist ne sleep function bei mir mit in der klasse
                 //Muss hier mit Multithreading gearbeitet werden? Kann man den Input auch waehrend des sleeps abfragen?
                 
                 //hier evtl noch Abfrage des Unserinputs
@@ -116,7 +129,7 @@ public class Gameplay{
             else{
                 //Game Over
                 this.gameOver = true;
-                this.playGround1.drawGameOver(this.gameOver);
+                this.playGround1.drawGameOver();
 
             }
 

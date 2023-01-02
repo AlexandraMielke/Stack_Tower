@@ -61,7 +61,7 @@ class PlayGround extends JPanel
         block3.yposition = 800;
         Block block4 = new Block();
         block4.color = 3;
-        block4.height = 100;
+        block4.height = 200;
         block4.width = 100;
         block4.xposition = 450;
         block4.yposition = 900;
@@ -69,24 +69,36 @@ class PlayGround extends JPanel
         
         field.drawFrame(block1, block2, block3, block4);
 
-        int i = 101;
+        int i = 0;
+        while(true)
+        {
+            block1.movingXAxis();
+            PlayGround.pause(5);
+            field.drawFrame(block1, block2, block3, block4);
+        }
+
+        /*int i = 101;
         int w = 100;
         int flag_forwards = 1;
         int flag_bigger = 1;
+        int c = 1;
         while(true)
         {
             block1.xposition = i;
-            block1.width = w;
+            block1.width = w;     
+            block1.color = c;       
             field.drawFrame(block1, block2, block3, block4); 
-            if(i == 800) flag_forwards = 0;
-            if(i == 100) 
+            if(i >= 800) flag_forwards = 0;
+            if(i <= 100) 
             {
                 flag_forwards = 1;
-                
+                if(c < 10) c = c+1;
+                else c = 1;
             }
             if(flag_forwards == 1) 
             {
                 i = i+1;
+                
             }
             else 
             {
@@ -97,9 +109,9 @@ class PlayGround extends JPanel
             if (w == 100) flag_bigger = 1;
             if(flag_bigger ==1) w = w+1;
             else w = w-1;
-            field.moveBackground();
+            field.moveBackground(1);
             PlayGround.pause(3);
-        }
+        }*/
                  
     }
     //*************************************************************************** CONSTRUCTOR
@@ -229,13 +241,13 @@ class PlayGround extends JPanel
     }
 
     /**
-     * Moves the background downwards by one pixel.
+     * Moves the background upwards by one pixel.
      */
-    public void moveBackground()
+    public void moveBackground(int scrollParameter)
     {
         //Shape of origin picture: 1000x7000 pixel
         int min = this.scrollpanel.getVerticalScrollBar().getMinimum();
-        this.backgroundPos = this.backgroundPos - 1;
+        this.backgroundPos = this.backgroundPos - scrollParameter;
         if(this.backgroundPos > min)
         {
             this.scrollpanel.getVerticalScrollBar().setValue(this.backgroundPos);
@@ -259,19 +271,19 @@ class PlayGround extends JPanel
             case 2:
                 return new Color(255, 127, 15, 254); //Orange
             case 3:
-                return new Color(44,160,44, 254); //green
+                return new Color(107,142,35, 254); //olivedrab
             case 4:
                 return new Color(214,39,40, 254); //red
             case 5:
-                return new Color(148,103,189,254); //purple
+                return new Color(102,51,153,254); //rebeccapurple
             case 6:
                 return new Color(164,52,132, 254); //berry
             case 7:
-                return new Color(227,119,194, 254); //rose
+                return new Color(255,160,122, 254); //coral
             case 8:
-                return new Color(140,86,75, 254); //brown
+                return new Color(222,184,135, 254); //burlywood
             case 9:
-                return new Color(188,189,34, 254); //may green
+                return new Color(154,205,50, 254); //yellowgreen
             case 10:
                 return new Color(227,190,3, 254); //mustard yellow
             default:
