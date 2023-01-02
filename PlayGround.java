@@ -69,15 +69,7 @@ class PlayGround extends JPanel
         
         field.drawFrame(block1, block2, block3, block4);
 
-        int i = 0;
-        while(true)
-        {
-            block1.movingXAxis();
-            PlayGround.pause(5);
-            field.drawFrame(block1, block2, block3, block4);
-        }
-
-        /*int i = 101;
+        int i = 101;
         int w = 100;
         int flag_forwards = 1;
         int flag_bigger = 1;
@@ -111,7 +103,7 @@ class PlayGround extends JPanel
             else w = w-1;
             field.moveBackground(1);
             PlayGround.pause(3);
-        }*/
+        }
                  
     }
     //*************************************************************************** CONSTRUCTOR
