@@ -26,7 +26,7 @@ public class Block{
     //Farbe durch Zufallszahl bestimmen
     public int randomColorBlock(){
         int min = 1;
-        int max = 10;
+        int max = 19;
 
         Random random = new Random();
 
@@ -42,18 +42,30 @@ public class Block{
      * Spielfeldweite, Spielfeldhöhe und Blockbreite werden von der Klasse Gameplay übergeben
      */ 
     public void startPositionStandingBlockDown(){
+        this.width = Gameplay.StartWidthBlock;
+        this.height = Gameplay.StartHeightBlock;
+        this.color = this.randomColorBlock(); 
         this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
         this.yposition = Gameplay.playingFieldHeight - this.height;
+
     }
 
     public void startPositionStandingBlockMiddle(){
+        this.width = Gameplay.StartWidthBlock;
+        this.height = Gameplay.StartHeightBlock;
+        this.color = this.randomColorBlock();
         this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
         this.yposition = Gameplay.playingFieldHeight - 2*this.height;
+
     }
 
     public void startPositionStandingBlockTop(){
+        this.width = Gameplay.StartWidthBlock;
+        this.height = Gameplay.StartHeightBlock;
+        this.color = this.randomColorBlock();
         this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
         this.yposition = Gameplay.playingFieldHeight - 3*this.height;
+
     } // muss hier nicht auch noch die weite übergen werden wie beim bewegten Block?
 
     /**
@@ -63,9 +75,12 @@ public class Block{
      * @param standingBlock oberster stehnder Block (Breite notwendig) -> Größe verändert sich im Spielverlauf
      */
     public void startpositionMovingBlock(Block standingBlock){
-        this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
-        this.yposition = 4 * this.height;
+        this.height = Gameplay.StartHeightBlock;
         this.width = standingBlock.width;
+        this.color = this.randomColorBlock();
+        this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
+        this.yposition = 2 * this.height;       
+
     }
 
     /**
@@ -133,10 +148,11 @@ public class Block{
      * @return (bool): True wenn Block gelandet ist
      */
     public boolean fall(){
-        if(this.yposition < Gameplay.StartHeightBlock*4){
+        if(this.yposition < (Gameplay.playingFieldHeight - Gameplay.StartHeightBlock*4)){
             this.yposition = this.yposition + Gameplay.fallParameter;
             return false;
         }else{
+
             return true;
         }
         
@@ -193,9 +209,10 @@ public class Block{
      * @param height: Höhe des untersten Blockes wird beim Scrollen kleiner
      * @param scrollParameter: mit wievieln Pixeln die Blöcke Gescrollt werden sollen
      */
-    public void scroll(){
-        this.yposition = this.yposition + Gameplay.scrollParameter;
-        this.height = this.height - Gameplay.scrollParameter;
+    public void scroll(int scrollParameter){
+        this.yposition = this.yposition + scrollParameter;
+        
+        //this.height = this.height - scrollParameter;
     }
 
 }

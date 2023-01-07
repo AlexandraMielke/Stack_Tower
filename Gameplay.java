@@ -1,24 +1,23 @@
-import java.util.concurrent.TimeUnit;
 
 //Tobias Elebracht
 //24.11.2022
 //Gamplayklasse fuer Spiel "StackTower" fuer das Modul Embedded Systems
 //Version 1, noch nicht einsatzbereit, einige Fehler und offene Stellen vorhanden
 
-
 public class Gameplay{
     //Variablen
 
-    private boolean moveBackgroundInGUI = false;
+    //private boolean moveBackgroundInGUI = false;
     private boolean gameOver = false;
-    private int delayTime = 2;                  //Millisec
-    private int playerScore = 0;
+    private int delayTime = 10;                  //Millisec
+    public static int playerScore = 0;
+    private int scrollParameter = 5;
 
     public static int playingFieldHeight = 1000;
     public static int playingFieldWidth = 1000;
     public static int StartHeightBlock = 100;                   // Höhe vom Block entspricht 100 Pixel
     public static int StartWidthBlock = 100;                   // Anfangsbreite vom Block entspricht 100 Pixel
-    public static int scrollParameter = 1;          // Anzahl an Pixel die der Block springt bei der Bewegung
+    //public int scrollParameter = 1;          // Anzahl an Pixel die der Block springt bei der Bewegung
     public static int fallParameter = 1;            // Anzahl an Pixel die der Block fällt bei der Bewegung
     public static int panParameter = 1;             //Parameter für Bewegung rechts/links
 
@@ -26,6 +25,15 @@ public class Gameplay{
     private Block blockObject2;
     private Block blockObject3;
     private PlayGround playGround;
+
+    public static void main(String[] args)
+    {
+        //while(true){
+            Gameplay Spiel1 = new Gameplay();
+            Spiel1.coreGameplayLoop();
+
+        //}
+    }
 
 
     //Methoden
@@ -36,8 +44,8 @@ public class Gameplay{
 
         //Anlegen der Start-Bloecke mit konstanter Position
         this.blockObject1 = new Block();
-        Block blockObject2 = new Block();
-        Block blockObject3 = new Block();
+        this.blockObject2 = new Block();
+        this.blockObject3 = new Block();
 
         //Anordnen der Bloecke:
         //ggf. noch Anpassen der Methodennamen
@@ -47,68 +55,73 @@ public class Gameplay{
 
     }
 
-    public boolean coreGameplayLoop(){
+
+    public void coreGameplayLoop(){
         //Schleife fuer das Erzeugen, Setzen und Auswerten eines Blocks
         //laeuft so lange, bis der bewegte Block den Tower nicht trifft
         while (this.gameOver == false){
 
             //Erzeugung eines Neuen Block-Objektes:
             Block blockObjekt4 = new Block();
-            blockObjekt4.startPositionMovingBlock();
+            blockObjekt4.startpositionMovingBlock(blockObject3);;
 
             //zeichne Spielfeld mit allen 4 Bloecken
-            this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+            this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
 
-            while (false/*SPACEBAR IS PRESSED VARIBALE ==FALSE*/){
+            int i =0;
+            while (i < 700){
                 //Block Objekt 4 wird horizontal bewegt, bis der Userinput kommt
                 blockObjekt4.movingXAxis();
-                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
                 
                 //Delay, screibt Spielgeschwindigkeit fest
-                PlayGround.pause(this.delayTime);
+                PlayGround.pause(2);
                 //Muss hier mit Multithreading gearbeitet werden? Kann man den Input auch waehrend des sleeps abfragen?
                 
                 //hier evtl noch Abfrage des Unserinputs
-
+                i = i+1;
             }
-
+                //PlayGround.pause(5000);
             //Abfrage ob Block 4 den Tower trifft
             //getter und setter für Block-Attribute anlegen
 
-            if (blockObjekt4.calculatIfOnTower(this.blockObject3.blockPosition, this.blockObject3.blockWidth) == true){
+            if (blockObjekt4.calculatIfOnTower(this.blockObject3) == true){
                 //Spiel geht weiter
 
                 while(blockObjekt4.fall() == false){
                     //Fall-Animation vom Block-Objekt4 bis es den Tower erreicht hat
                     blockObjekt4.fall();
-                    this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                    this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
                     //Delay, screibt Spielgeschwindigkeit fest
                     PlayGround.pause(this.delayTime);
 
                 }
                 
                 
-                this.playerScore = this.playerScore + 1;
-                this.playGround.updatePlayerScore(this.playerScore);
-                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                Gameplay.playerScore = Gameplay.playerScore + 1;
+                this.playGround.updatePlayerScore();
+
+                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
                 //Delay, screibt Spielgeschwindigkeit fest
                 PlayGround.pause(this.delayTime);
 
-                blockObjekt4.split();
-                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                blockObjekt4.split(blockObject3);
+                //PlayGround.pause(this.delayTime);
+                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
                 //Delay, screibt Spielgeschwindigkeit fest
-                TimeUnit.SECONDS.sleep(this.delayTime);
+                PlayGround.pause(10);
 
-                while(this.blockObject1.height != 0){
+                while(this.blockObject1.yposition < Gameplay.playingFieldHeight){
                     //Scrollt alle Bloecke mit jeder Schleife um einen bestimmten wert nach unten, bis die Hoehe von Block1 = 0 ist
 
-                    this.blockObject1.scroll();
-                    this.blockObject2.scroll();
-                    this.blockObject3.scroll();
-                    blockObjekt4.scroll();
-                    this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                    this.blockObject1.scroll(scrollParameter);     //würde den Scrollparameter hier lieber mit übergeben
+                    this.blockObject2.scroll(scrollParameter);
+                    this.blockObject3.scroll(scrollParameter);
+                    blockObjekt4.scroll(scrollParameter);
+                    this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
+                    this.playGround.moveBackground(3);
                     //Delay, screibt Spielgeschwindigkeit fest
-                    TimeUnit.SECONDS.sleep(this.delayTime); 
+                    PlayGround.pause(10); 
 
                 }
 
@@ -119,15 +132,24 @@ public class Gameplay{
 
                 blockObjekt4 = null; 
                 //in diesem Fall werden nur 3 Block-Objekte übergeben, blockObject4 = NULL!!
-                this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4 , this.moveBackgroundInGUI);
+                //this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
                 //Delay, screibt Spielgeschwindigkeit fest
-                TimeUnit.SECONDS.sleep(this.delayTime);
+                PlayGround.pause(this.delayTime);
                 
             }
 
 
             else{
                 //Game Over
+
+                while(blockObjekt4.fall() == false){
+                    //Fall-Animation vom Block-Objekt4 bis es den Tower erreicht hat
+                    blockObjekt4.fall();
+                    this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
+                    //Delay, screibt Spielgeschwindigkeit fest
+                    PlayGround.pause(this.delayTime);
+
+                }
                 this.gameOver = true;
                 this.playGround.drawGameOver();
 

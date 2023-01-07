@@ -26,8 +26,6 @@ class PlayGround extends JPanel
      */
 
     //*************************************************************************** CLASS VARIABLES
-    public static int playerScore;
-
     private static JFrame mainFrame;
     private final int[] layers = {-3000,0,300};
     private JLayeredPane layeredPane;
@@ -38,7 +36,7 @@ class PlayGround extends JPanel
     public static void main(String[] args)
     {
         //Create first panel
-        PlayGround field = initPlayGround(1000, 1000);
+        PlayGround field = initPlayGround(900, 1000);
 
         //Create Block objects (would be better, if block color was decided in the constructor)
         Block block1 = new Block();
@@ -150,7 +148,6 @@ class PlayGround extends JPanel
      */
     public static PlayGround initPlayGround(int playingFieldHeight, int playingFieldWidth)
     { 
-        PlayGround.playerScore = 0;
 
         //Create empty main background panel
         PlayGround.mainFrame = new JFrame("Stack Tower");  
@@ -208,9 +205,10 @@ class PlayGround extends JPanel
      * 
      * @param Score
      */
-    public void updatePlayerScore(int Score)
+    public void updatePlayerScore()
     {
-        this.scoreboard.setText("Score: " + Integer.toString(PlayGround.playerScore));
+        this.scoreboard.setText("Score: " + Integer.toString(Gameplay.playerScore));
+       // int i =0;
     }
 
     /**
@@ -221,7 +219,7 @@ class PlayGround extends JPanel
     {
         this.deletePanels();
 
-        JLabel label = new JLabel("GAME OVER! Your score was " + Integer.toString(PlayGround.playerScore));
+        JLabel label = new JLabel("GAME OVER! Your score was " + Integer.toString(Gameplay.playerScore));
         label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setOpaque(true);
@@ -322,14 +320,14 @@ class PlayGround extends JPanel
      */
     private void drawScoreBoard()
     {
-        this.scoreboard = new JLabel("Score: " + Integer.toString(PlayGround.playerScore));
+        this.scoreboard = new JLabel("Score: " + Integer.toString(Gameplay.playerScore));
         this.scoreboard.setVerticalAlignment(JLabel.CENTER);
         this.scoreboard.setHorizontalAlignment(JLabel.CENTER);
         this.scoreboard.setOpaque(true);
-        this.scoreboard.setBackground(new Color(0,0,0, 150));
+        this.scoreboard.setBackground(new Color(0,0,0, 255));
         this.scoreboard.setForeground(Color.white);
         this.scoreboard.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.scoreboard.setBounds(800,900,150, 50);    
+        this.scoreboard.setBounds(800,50,150, 50);    
         layeredPane.add(this.scoreboard, Integer.valueOf(layers[1])); 
     }
 
@@ -343,7 +341,7 @@ class PlayGround extends JPanel
         ImageIcon backgroundImg = new ImageIcon("image/Background/Background.png");
         this.background = new JLabel(backgroundImg);
 
-        this.background.setBounds(0,0,1000,1000);
+        this.background.setBounds(0,0,1000,Gameplay.playingFieldHeight);
         this.background.setOpaque(true);
         this.background.setBackground(Color.BLACK);
 
