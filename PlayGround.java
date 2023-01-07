@@ -5,7 +5,7 @@
  * Content: Graphic User Interface class for the Game "Stack Tower". Programmed 
  * as part of the course embedded systems, master electrical engineering.
  * 
- * Last modified:  31.12.2022
+ * Last modified:  07.01.2023
  * 
  */
 
@@ -238,6 +238,10 @@ class PlayGround extends JPanel
         //Shape of origin picture: 1000x7000 pixel
         int min = this.scrollpanel.getVerticalScrollBar().getMinimum();
         this.backgroundPos = this.backgroundPos - scrollParameter;
+        if(this.backgroundPos > 6100) //move-around, cause background doesn't move at the start
+        {
+            this.backgroundPos = 6099;
+        }
         if(this.backgroundPos > min)
         {
             this.scrollpanel.getVerticalScrollBar().setValue(this.backgroundPos);
@@ -248,6 +252,7 @@ class PlayGround extends JPanel
 
     /**
      * Translates the numbers 1-10 into 10 different colors.
+     * Source https://www.mediaevent.de/tutorial/farbcodes.html
      * 
      * @param colornumber (int): Number of range 1-10.
      * @return
@@ -265,7 +270,7 @@ class PlayGround extends JPanel
             case 4:
                 return new Color(214,39,40, 254); //red
             case 5:
-                return new Color(102,51,153,254); //rebeccapurple
+                return new Color(128,128,0,254); //olive
             case 6:
                 return new Color(164,52,132, 254); //berry
             case 7:
@@ -276,6 +281,26 @@ class PlayGround extends JPanel
                 return new Color(154,205,50, 254); //yellowgreen
             case 10:
                 return new Color(227,190,3, 254); //mustard yellow
+            case 11:
+                return new Color(128,0,0,255); //maroon
+            case 12:
+                return new Color(0,128,0,255); //green
+            case 13:
+                return new Color(60,179,113,255); //mediumseagreen
+            case 14:
+                return new Color(0,139,139,255); //darkcyan
+            case 15:
+                return new Color(255,20,147,255); //deeppink
+            case 16:
+                return new Color(255,218,185,255); //peachpuff
+            case 17:
+                return new Color(189,183,107,255); //darkkhaki
+            case 18:
+                return new Color(186,85,211,255); //mediumorchid
+            case 19:
+                return new Color(128,0,128,255); //purple
+            case 20:
+                return new Color(95,158,160,255); //cadetblue
             default:
                 return new Color(127,127,127, 254); //grey
         }
