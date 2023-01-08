@@ -14,96 +14,19 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * blabla
+ */
 class PlayGround extends JPanel
 {
-    /**
-     * @param args
-     * 
-     * Attributes:
-     *  playingFieldWidth
-     *  playingFieldHeigth
-     *  playerScore
-     */
-
     //*************************************************************************** CLASS VARIABLES
-    private static JFrame mainFrame;
+    public static Keylistener mainFrame; //JFrame
     private final int[] layers = {-3000,0,300};
     private JLayeredPane layeredPane;
     private JLabel blockpanel1, blockpanel2, blockpanel3, blockpanel4, scoreboard, background;
     private int backgroundPos;
     private JScrollPane scrollpanel;
 
-    public static void main(String[] args)
-    {
-        //Create first panel
-        PlayGround field = initPlayGround(900, 1000);
-
-        //Create Block objects (would be better, if block color was decided in the constructor)
-        Block block1 = new Block();
-        block1.color = 4;
-        block1.height = 100;
-        block1.width = 100;
-        block1.xposition = 450;
-        block1.yposition = 200;
-        Block block2 = new Block();
-        block2.color = 1;
-        block2.height = 100;
-        block2.width = 100;
-        block2.xposition = 450;
-        block2.yposition = 700;
-        Block block3 = new Block();
-        block3.color = 2;
-        block3.height = 100;
-        block3.width = 100;
-        block3.xposition = 450;
-        block3.yposition = 800;
-        Block block4 = new Block();
-        block4.color = 3;
-        block4.height = 200;
-        block4.width = 100;
-        block4.xposition = 450;
-        block4.yposition = 900;
-        
-        
-        field.drawFrame(block1, block2, block3, block4);
-
-        int i = 101;
-        int w = 100;
-        int flag_forwards = 1;
-        int flag_bigger = 1;
-        int c = 1;
-        while(true)
-        {
-            block1.xposition = i;
-            block1.width = w;     
-            block1.color = c;       
-            field.drawFrame(block1, block2, block3, block4); 
-            if(i >= 800) flag_forwards = 0;
-            if(i <= 100) 
-            {
-                flag_forwards = 1;
-                if(c < 10) c = c+1;
-                else c = 1;
-            }
-            if(flag_forwards == 1) 
-            {
-                i = i+1;
-                
-            }
-            else 
-            {
-                i=i-1;
-                
-            }
-            if (w == 150) flag_bigger = 0;
-            if (w == 100) flag_bigger = 1;
-            if(flag_bigger ==1) w = w+1;
-            else w = w-1;
-            field.moveBackground(1);
-            PlayGround.pause(3);
-        }
-                 
-    }
     //*************************************************************************** CONSTRUCTOR
 
     /**
@@ -121,23 +44,6 @@ class PlayGround extends JPanel
     }
 
     //*************************************************************************** PUBLIC FUNCTIONS
-
-    /**
-     * Pauses for the amount of millisec given.
-     * 
-     * @param millisec
-     */
-    public static void pause(int millisec)
-    {
-        long Time0 = System.currentTimeMillis();
-        long Time1;
-        long runTime = 0;
-        while (runTime < millisec) { // 1000 milliseconds or 1 second
-            Time1 = System.currentTimeMillis();
-            runTime = Time1 - Time0;
-        }
-    }
-
     /**
      * Creates the game's GUI by adding a background, 
      * a scoreboard and 4 blockobjects.
@@ -150,8 +56,9 @@ class PlayGround extends JPanel
     { 
 
         //Create empty main background panel
-        PlayGround.mainFrame = new JFrame("Stack Tower");  
-        PlayGround.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        //JFrame is created in Gameplay  
+        PlayGround.mainFrame.setTitle("Stack Tower");
+        //PlayGround.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         PlayGround.mainFrame.setSize(playingFieldWidth,playingFieldHeight);
         ImageIcon icon = new ImageIcon("image/Stack_Tower.png");
         PlayGround.mainFrame.setIconImage(icon.getImage());
@@ -159,7 +66,7 @@ class PlayGround extends JPanel
         //Create content pane
         PlayGround contentPane = new PlayGround(mainFrame.getLayeredPane());
         contentPane.setOpaque(true);
-        mainFrame.setContentPane(contentPane);
+        PlayGround.mainFrame.setContentPane(contentPane);
 
         //create content
         contentPane.createBackground();
@@ -170,7 +77,7 @@ class PlayGround extends JPanel
         contentPane.blockpanel4 = contentPane.createBlock();
 
         //Display the window
-        mainFrame.setVisible(true);
+        PlayGround.mainFrame.setVisible(true);
 
         //move background to start
         contentPane.backgroundPos = contentPane.scrollpanel.getVerticalScrollBar().getMaximum();
@@ -246,6 +153,11 @@ class PlayGround extends JPanel
         {
             this.scrollpanel.getVerticalScrollBar().setValue(this.backgroundPos);
         }
+    }
+
+    public void clean()
+    {
+        PlayGround.mainFrame.getContentPane().removeAll();
     }
 
     //*************************************************************************** PRIVATE UTIL FUNCTIONS
@@ -407,6 +319,100 @@ class PlayGround extends JPanel
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainFrame.add(scrollpanel);
         
+    }
+
+    //*************************************************************************** UTILS
+
+    /**
+     * Pauses for the amount of millisec given.
+     * 
+     * @param millisec
+     */
+    public static void pause(int millisec)
+    {
+        long Time0 = System.currentTimeMillis();
+        long Time1;
+        long runTime = 0;
+        while (runTime < millisec) { // 1000 milliseconds or 1 second
+            Time1 = System.currentTimeMillis();
+            runTime = Time1 - Time0;
+        }
+    }
+
+    /**
+     * Example code for the class
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+        //Create first panel
+        PlayGround field = initPlayGround(900, 1000);
+
+        //Create Block objects (would be better, if block color was decided in the constructor)
+        Block block1 = new Block();
+        block1.color = 4;
+        block1.height = 100;
+        block1.width = 100;
+        block1.xposition = 450;
+        block1.yposition = 200;
+        Block block2 = new Block();
+        block2.color = 1;
+        block2.height = 100;
+        block2.width = 100;
+        block2.xposition = 450;
+        block2.yposition = 700;
+        Block block3 = new Block();
+        block3.color = 2;
+        block3.height = 100;
+        block3.width = 100;
+        block3.xposition = 450;
+        block3.yposition = 800;
+        Block block4 = new Block();
+        block4.color = 3;
+        block4.height = 200;
+        block4.width = 100;
+        block4.xposition = 450;
+        block4.yposition = 900;
+        
+        
+        field.drawFrame(block1, block2, block3, block4);
+
+        int i = 101;
+        int w = 100;
+        int flag_forwards = 1;
+        int flag_bigger = 1;
+        int c = 1;
+        while(true)
+        {
+            block1.xposition = i;
+            block1.width = w;     
+            block1.color = c;       
+            field.drawFrame(block1, block2, block3, block4); 
+            if(i >= 800) flag_forwards = 0;
+            if(i <= 100) 
+            {
+                flag_forwards = 1;
+                if(c < 10) c = c+1;
+                else c = 1;
+            }
+            if(flag_forwards == 1) 
+            {
+                i = i+1;
+                
+            }
+            else 
+            {
+                i=i-1;
+                
+            }
+            if (w == 150) flag_bigger = 0;
+            if (w == 100) flag_bigger = 1;
+            if(flag_bigger ==1) w = w+1;
+            else w = w-1;
+            field.moveBackground(1);
+            PlayGround.pause(3);
+        }
+                 
     }
 }
 

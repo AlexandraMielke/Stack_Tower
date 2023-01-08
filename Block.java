@@ -78,7 +78,8 @@ public class Block{
         this.height = Gameplay.StartHeightBlock;
         this.width = standingBlock.width;
         this.color = this.randomColorBlock();
-        this.xposition = (int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
+        //start left so cheating is impossible
+        this.xposition = Gameplay.StartWidthBlock; //(int)(Gameplay.playingFieldWidth / 2) - (Gameplay.StartWidthBlock / 2);
         this.yposition = 2 * this.height;       
 
     }
