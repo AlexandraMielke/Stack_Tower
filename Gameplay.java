@@ -31,7 +31,7 @@ public class Gameplay{
         Keylistener mainFrame1 = new Keylistener();
         while(true)
         {  
-            PlayGround.mainFrame = mainFrame1; //JFrame created her for Keylistener Features
+            PlayGround.mainFrame = mainFrame1; //JFrame created here for Keylistener Features
             Gameplay Game = new Gameplay();
             Game.coreGameplayLoop();
 
@@ -42,7 +42,7 @@ public class Gameplay{
                 //do nothing
             }
             //fix Keyaction flag
-            Keylistener.keyPressed = false;
+             Keylistener.keyPressed = false;
             //PlayGround.pause(2000);
             System.exit(0); //only works in debug mode. Otherwise game just stops after game over
 
@@ -54,7 +54,7 @@ public class Gameplay{
     //constructor
     public Gameplay(){
         //Anlegen des Spielfeldes mit Input "Groesse"?
-        this.playGround = PlayGround.initPlayGround(1000, 1000);
+        this.playGround = PlayGround.initPlayGround(Gameplay.playingFieldHeight, Gameplay.playingFieldWidth);
 
         //Anlegen der Start-Bloecke mit konstanter Position
         this.blockObject1 = new Block();

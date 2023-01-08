@@ -157,11 +157,6 @@ class PlayGround extends JPanel
         }
     }
 
-    public void clean()
-    {
-        PlayGround.mainFrame.getContentPane().removeAll();
-    }
-
     //*************************************************************************** PRIVATE UTIL FUNCTIONS
 
     /**
