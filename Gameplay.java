@@ -9,16 +9,16 @@ public class Gameplay{
 
     //private boolean moveBackgroundInGUI = false;
     private boolean gameOver = false;
-    private int delayTime = 10;                  //Millisec
+    private int delayTime = 5;                  //Millisec
     public static int playerScore = 0;
     private int scrollParameter = 5;
 
-    public static int playingFieldHeight = 1000;
+    public static int playingFieldHeight = 800;
     public static int playingFieldWidth = 1000;
     public static int StartHeightBlock = 100;                   // Höhe vom Block entspricht 100 Pixel
     public static int StartWidthBlock = 100;                   // Anfangsbreite vom Block entspricht 100 Pixel
     //public int scrollParameter = 1;          // Anzahl an Pixel die der Block springt bei der Bewegung
-    public static int fallParameter = 1;            // Anzahl an Pixel die der Block fällt bei der Bewegung
+    public static int fallParameter = 3;            // Anzahl an Pixel die der Block fällt bei der Bewegung
     public static int panParameter = 1;             //Parameter für Bewegung rechts/links
 
     private Block blockObject1;
@@ -27,12 +27,26 @@ public class Gameplay{
     private PlayGround playGround;
 
     public static void main(String[] args)
-    {
-        //while(true){
-            Gameplay Spiel1 = new Gameplay();
-            Spiel1.coreGameplayLoop();
+    {        
+        Keylistener mainFrame1 = new Keylistener();
+        while(true)
+        {  
+            PlayGround.mainFrame = mainFrame1; //JFrame created her for Keylistener Features
+            Gameplay Game = new Gameplay();
+            Game.coreGameplayLoop();
 
-        //}
+            //Gameover - wait for player interaction!
+            
+            while(Keylistener.keyPressed == false)
+            {
+                //do nothing
+            }
+            //fix Keyaction flag
+            Keylistener.keyPressed = false;
+            //PlayGround.pause(2000);
+            System.exit(0); //only works in debug mode. Otherwise game just stops after game over
+
+        }
     }
 
 
@@ -68,8 +82,8 @@ public class Gameplay{
             //zeichne Spielfeld mit allen 4 Bloecken
             this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
 
-            int i =0;
-            while (i < 700){
+            while (Keylistener.keyPressed == false)
+            {
                 //Block Objekt 4 wird horizontal bewegt, bis der Userinput kommt
                 blockObjekt4.movingXAxis();
                 this.playGround.drawFrame(this.blockObject1, this.blockObject2, this.blockObject3, blockObjekt4);
@@ -78,9 +92,9 @@ public class Gameplay{
                 PlayGround.pause(2);
                 //Muss hier mit Multithreading gearbeitet werden? Kann man den Input auch waehrend des sleeps abfragen?
                 
-                //hier evtl noch Abfrage des Unserinputs
-                i = i+1;
             }
+
+            Keylistener.keyPressed = false; //reset keyPressed
                 //PlayGround.pause(5000);
             //Abfrage ob Block 4 den Tower trifft
             //getter und setter für Block-Attribute anlegen
