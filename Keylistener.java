@@ -1,10 +1,26 @@
+/*
+ * Author:  Alexandra Mielke
+ * Date:    January 2022
+ * 
+ * Content: Flaghandler for user interaction
+ * 
+ * Last modified:  08.01.2023
+ * 
+ */
+
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * JFrame type. Adds keylistener for all keys.
+ */
 public class Keylistener extends JFrame implements KeyListener{
 
     public static boolean keyPressed;
 
+    /**
+     * JFrame type. Adds keylistener for all keys.
+     */
     Keylistener()
     {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

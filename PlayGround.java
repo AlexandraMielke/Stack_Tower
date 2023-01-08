@@ -5,7 +5,7 @@
  * Content: Graphic User Interface class for the Game "Stack Tower". Programmed 
  * as part of the course embedded systems, master electrical engineering.
  * 
- * Last modified:  07.01.2023
+ * Last modified:  08.01.2023
  * 
  */
 
@@ -15,7 +15,9 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * blabla
+ * PlayGround Object contains all planes and shapes needed for the Game. 
+ * Please use initGamePlay to construct an object of this type. Block Objects are only created
+ * once and are then reused!
  */
 class PlayGround extends JPanel
 {
@@ -130,9 +132,9 @@ class PlayGround extends JPanel
         label.setVerticalAlignment(JLabel.CENTER);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setOpaque(true);
-        label.setBackground(new Color(0, 0, 0, 150));
+        label.setBackground(new Color(0, 0, 0, 255));
         label.setForeground(Color.white);
-        label.setBounds(100,0,(mainFrame.getWidth() - 200), mainFrame.getHeight());
+        label.setBounds(350,0,(mainFrame.getWidth() - 700), mainFrame.getHeight());
         
         layeredPane.add(label, Integer.valueOf(layers[2])); //Treated as pop-up
     }
