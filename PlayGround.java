@@ -343,6 +343,7 @@ class PlayGround extends JPanel
     public static void main(String[] args)
     {
         //Create first panel
+        PlayGround.mainFrame = new Keylistener();
         PlayGround field = initPlayGround(900, 1000);
 
         //Create Block objects (would be better, if block color was decided in the constructor)
